@@ -9,7 +9,7 @@ trigger:
 
 stages:
 
-- stage: Build Stage
+- stage: BuildStage
 
   pool:
     vmImage: ubuntu-latest
