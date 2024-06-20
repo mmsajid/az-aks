@@ -6,6 +6,9 @@
 trigger:
 - ci
 
+variables: 
+  - name: directory'  
+    value: $(Build.SourcesDirectory)/tf_aks
 
 stages:
 
@@ -19,9 +22,16 @@ stages:
     displayName: Static Code Analysis
 
     steps:
-    - script: echo Hello, world!
+    - script: copy code to $(Build.SourcesDirectory)  
+      displayName: 'Copy code to sources directory'
+
+    - script: pip install checkov
       displayName: 'Install Checkov tool'
 
+    - script: |
+        echo Run Checkov tool
+        checkov -d $(directory)
+  
 
     - script: |
         echo Add other tasks to build, test, and deploy your project.
