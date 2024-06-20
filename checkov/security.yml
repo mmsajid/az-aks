@@ -1,0 +1,16 @@
+
+
+parameters:
+  - name: directory
+    type: string
+    
+
+steps:
+  - task: CmdLine@2
+    inputs:
+      script: |
+        'pip install checkov'
+        'checkov --directory $(directory) --output junitxml --soft-fail  > $(System.DefaultWorkingDirectory)/checkov/checkov-report.xml'
+ 
+
+
