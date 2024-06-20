@@ -1,0 +1,45 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- ci
+
+variables: 
+    directory : $(Build.SourcesDirectory)/tf_aks
+    
+
+stages:
+
+- stage: BuildStage
+
+  pool:
+    vmImage: ubuntu-latest
+
+  jobs:
+  - job: Build
+    displayName: Static Code Analysis
+
+    
+    steps:
+
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(directory)'
+        Contents: '**'
+        TargetFolder: '$(Build.DefaultWorkingDirectory)'  
+
+
+    - script: pip install checkov
+      displayName: 'Install Checkov tool'
+
+    - template: checkov/security.yml
+      parameters:
+        directory: '$(Build.DefaultWorkingDirectory)'
+  
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.DefaultWorkingDirectory)'
+        ArtifactName: 'drop-iac'
+        publishLocation: 'Container'
