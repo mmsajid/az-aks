@@ -30,7 +30,7 @@ stages:
       inputs:
         SourceFolder: '$(directory)'
         Contents: '**'
-        TargetFolder: '$(Build.DefaultWorkingDirectory)/scandir'  
+        TargetFolder: '$(Build.DefaultWorkingDirectory)'  
 
 
     - script: pip install checkov
@@ -38,7 +38,7 @@ stages:
 
     - script: |
         echo Run Checkov tool
-        checkov -d $(Build.DefaultWorkingDirectory)/scandir
+        checkov -d $(Build.DefaultWorkingDirectory)
   
 
     - script: |
